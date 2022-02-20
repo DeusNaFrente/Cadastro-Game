@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                >
+
+
+
+
+    <ui:define name="metadata">
+        <f:metadata>
+
+
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="conteudo">
+
+        <h:head>
+
+
+
+            <style>
+                fieldset{
+                    width: 1500px;
+                    height: 600px;
+                    border-width: 2px;
+                    border-color: aliceblue;
+                    border-radius: 10px 20px;
+                }
+
+
+
+
+            </style>
+
+            <p:messages><p:autoUpdate /></p:messages>
+            <h:outputScript library="javascript" name="validation.js" />
+
+        </h:head> 
+        <h:body>
+
+
+            <h:panelGroup id="tudo">
+
+
+                <fieldset>
+                    <legend>Controle de Jogos</legend>
+
+
+                    <h:form id = "dados">
+                        
+                        
+                        
+                        <p:panelGrid columns="15" style="position: absolute;left: 180px;top: 450px; font-size: 12px;width: 50px;">
+                                <!--Ícone de Adc. Games-->
+
+                                <p:commandLink oncomplete="PF('dlgGames').show();">
+                                    <p:graphicImage title="+ Adicionar empresa." width="30px" height="30px" 
+                                                    name="portasetor.png" library="imagens"  />
+                                </p:commandLink>
+                                <p >+ Adc. Game</p>
+
+                                
+                            </p:panelGrid>
+
+
+                        <div  style="position: absolute;left: 30px;top: 50px; text-align: left;">
+
+                            <p>Descrição</p>
+                            <p><p:inputText value="#{paiMB.pai.descricao}" style="font-size: 14px"/></p>
+
+
+                        </div>
+
+
+
+                        <div  style="position: absolute;left: 30px;top: 150px; text-align: left;">
+                            <p>O valor de frete são R$ 10,00 por unidade.</p>
+               
+                        </div>
+
+
+                        <div  style="position: absolute;left: 30px;top: 250px; text-align: left;">
+                            <p>Valor Total com frete:</p>
+                            <p><p:inputText id="txtVtt" value="#{paiMB.pai.vtt}" class="valor" /></p>
+
+                        </div>
+
+
+
+
+                        <div style="position: absolute;left: 600px;top: 500px; text-align: left;">
+
+                            <p:commandButton value="Excluir" actionListener="#{paiMB.excluirPaieFilhos()}"  
+                                             update=":tudo" 
+                                             style="height:30px;background-color: whitesmoke;font-size: 13px;"/>
+                            <p:commandButton value="Salvar" actionListener="#{paiMB.salvar()}" 
+                                             update=":tudo" 
+                                             style="height:30px;background-color: whitesmoke;font-size: 13px;" />
+                            <p:commandButton value="Novo" actionListener="#{paiMB.novo()}" 
+                                             update=":tudo" 
+                                             style="height:30px;background-color: whitesmoke;font-size: 13px;" />
+
+                        </div>
+
+                                              
+
+
+                    </h:form>
+
+
+                    <h:form id ="tabelas">
+
+                        <div style="position: absolute;left: 550px;top: 50px; text-align: left;">
+
+                            <p:panel id="pnl" header="Games adquiridos:">
+                                <p:dataTable  id="tb1" style="font-size: 14px;width: 500px" 
+                                              value="#{paiMB.pai.itensG}" var="tb01" 
+                                              emptyMessage="Nenhum item cadastrado!">
+
+
+
+                                    <p:column headerText="Jogo:" filterBy="#{tb01.game.nome}">
+                                        <h:outputText value="#{tb01.game.nome}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Score:" filterBy="#{tb01.game.score}">
+                                        <h:outputText value="#{tb01.game.score}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Qtd:">
+                                        <h:outputText value="#{tb01.qtd}"/>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Preço sem frete:" >
+                                        <h:outputText value="#{tb01.valor}"/>
+                                    </p:column>
+                                    
+                                    
+
+
+                                </p:dataTable>
+                            </p:panel>
+                            <p:draggable for="pnl"/>
+
+                        </div>
+
+
+                      
+                        
+
+
+                        <div style="position: absolute;left: 20px;top: 680px; text-align: left;">
+
+                            <p:panel id="pn4" header="Jogos por Categoria:">
+                                <p:dataTable  id="tb4" style="font-size: 14px;width: 1050px" 
+                                              value="#{paiMB.listarPai}" var="tb04" 
+                                              emptyMessage="Nenhum item cadastrado!"
+                                              paginator="true" rows="2" selectionMode="single" 
+                                              selection="#{paiMB.pai}" rowKey="#{tb04.id}">
+                                    <p:ajax event="rowSelect" update=":tudo" 
+                                            listener="#{paiMB.editar()}" />
+    
+                                    
+                                    <p:column headerText="Categoria" filterBy="#{tb04.descricao}" >
+                                        <h:outputText value="#{tb04.descricao}" style="font-size: 18px" />
+                                    </p:column>
+                                   
+                                    
+
+                                </p:dataTable>
+                            </p:panel>
+                            <p:draggable for="pnl"/>
+
+                        </div>
+
+
+                    </h:form>
+
+                </fieldset>
+
+
+                <p:dialog widgetVar="dlgGames"  showEffect="explode" hideEffect="explode" draggable="true" closable="false" resizable="false"
+                          modal="true" appendTo="@(body)" width="680px" height="700px" >
+
+
+                    <h:form id="frmTbProd">
+                        <div style="position: absolute;left: 5px;top: 10px; text-align: left;">
+
+                            <p:panel id="pn3" header="Jogos:"> 
+                                <p:separator />
+
+                                <p:dataTable id="tbProd" style="font-size: 14px;width: 600px" value="#{gameMB.listaGame}"
+                                             var="tb05" emptyMessage="Nenhum item cadastrado!" 
+                                             paginator="true" rows="3" >
+
+                                    <p:column headerText="Game" filterBy="#{tb05.nome}" >
+                                        <h:outputText value="#{tb05.nome}" style="font-size: 12px" />
+                                    </p:column>
+
+                                    <p:column headerText="Preço" >
+                                        <h:outputText value="#{tb05.preco}" style="font-size: 12px" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="Opções" width="100">
+
+
+
+                                        <p:commandButton icon="ui-icon-plus" 
+                                                         actionListener="#{paiMB.adicionarGame(tb05)}"
+
+                                                         update=":frmProdR:tbProdR :tabelas:tb1 :dados:txtVtt"/>
+
+
+                                    </p:column>
+
+
+
+
+                                </p:dataTable>
+
+                                <div style="position: absolute;left: 560px;top: 7px; text-align: left;">
+                                    <p:commandButton value="Fechar"  
+                                                     oncomplete="PF('dlgGames').hide();" 
+                                                     style="height:30px;background-color: whitesmoke;font-size: 13px;"/>
+                                </div>
+
+                            </p:panel>
+
+                        </div>
+                    </h:form>
+
+                    <h:form id="frmProdR">
+
+                        <div style="position: absolute;left: 5px;top: 350px; text-align: left;">
+
+
+                            <p:panel id="pn3" header="Composição de itens:"> 
+
+                                <p:separator />
+
+                                <p>Game adicionado com frete incluso:</p>
+                                <p:dataTable  id="tbProdR" value="#{paiMB.pai.itensG}"
+                                              paginator="true" rows="3"
+                                              var="tb06" style="font-size: 14px;width: 600px"
+                                              emptyMessage="Sem retorno!" >
+
+
+                                    <p:column headerText="Jogo" 
+                                              style="font-size: 15px;" width="200" >
+                                        <h:outputText value="#{tb06.game.nome}"/>  
+                                    </p:column>
+
+                                    <p:column headerText="Qtd" 
+                                              style="font-size: 15px;" width="200" >
+                                        <h:outputText value="#{tb06.qtd}"/>  
+                                    </p:column>
+                                    
+                                      <p:column headerText="Preço" >
+                                          <h:outputText value="#{tb06.valor}" style="font-size: 12px" />
+                                    </p:column>
+
+                                    <p:column headerText="Excluir" width="60">
+
+                                        <p:commandButton icon="ui-icon-close" 
+                                                         actionListener="#{paiMB.removerGame(tb06)}"
+                                                         update=":frmProdR:tbProdR :tabelas:tb1 :dados:txtVtt"/>
+
+
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:panel>
+
+                        </div>
+
+
+                    </h:form>
+
+                </p:dialog>
+
+
+                
+
+            </h:panelGroup>
+
+
+
+
+
+        </h:body>
+
+    </ui:define>
+
+</ui:composition>                    

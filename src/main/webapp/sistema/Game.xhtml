@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml"
+                >
+
+
+
+
+    <ui:define name="metadata">
+        <f:metadata>
+
+
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="conteudo">
+
+
+
+        <h:head>
+
+            <p:messages><p:autoUpdate /></p:messages>
+
+            <style>
+
+
+
+
+                fieldset{
+                    width: 1500px;
+                    height: 390px;
+                    border-width: 2px;
+                    border-color: aliceblue;
+                    border-radius: 10px 20px;
+                }
+
+
+
+
+
+            </style>
+
+        </h:head>
+
+
+        <h:body>
+
+
+
+
+            <h:panelGroup id="tudo">
+
+
+                <h:form id = "frmEditar"> 
+
+
+
+                    <fieldset>
+                        <legend>Cadastro de Games</legend>
+
+
+                        <div  style="position: absolute;left: 30px;top: 20px">
+                            <p>Nome do Jogo:</p>
+                            <p:inputText value="#{gameMB.game.nome}" placeholder="Nome"  size="30"/>
+
+                        </div>
+
+
+                        <div style="position: absolute;left: 30px;top: 120px">
+
+                            <p>Score:</p>
+                            <p:inputText value="#{gameMB.game.score}"  size="20"/>
+
+                        </div>
+
+
+
+                        <div style="position: absolute;left: 30px;top: 220px; text-align: left">
+
+                            <p>Preço:</p>
+                            <p><p:inputText value="#{gameMB.game.preco}" class="valor" /></p>
+
+
+                        </div>
+
+
+                         <div style="position: absolute;left: 500px;top: 100px; text-align: left">
+
+                             <p:panel id="pnl" header="Games:">
+                             <p><p:graphicImage url="#{gameMB.game.imagem}" rendered="#{gameMB.game.imagem ne null}" style="width:150px;height: 150px"/></p>
+                             </p:panel>
+
+                        </div>
+                        
+                        
+
+                        <div style="position: absolute;left: 800px;top: 370px; text-align: left">
+
+                            <p:commandButton icon="ui-icon-plus" value="Novo" actionListener="#{gameMB.novo()}" update=":tudo" style="height:30px;background-color: whitesmoke;font-size: 13px;" />
+                            <p:commandButton value="Salvar" actionListener="#{gameMB.salvar()}" update=":tudo" style="height:30px;background-color: whitesmoke;font-size: 13px;" />
+                            <p:commandButton icon="ui-icon-trash" value="Excluir" actionListener="#{gameMB.excluir()}" update=":tudo" style="height:30px;background-color: whitesmoke;font-size: 13px;"/>
+
+                        </div>
+
+
+
+                    </fieldset>
+
+                </h:form>
+
+
+
+                <br></br><br></br><br></br>
+
+
+
+                <h:panelGroup >
+
+                    <h:form id="frmListar" >
+
+
+                        <p:dataTable style="font-size: 14px;"  value="#{gameMB.listaGame}" var="a" emptyMessage="Sem retorno!" 
+                                     selectionMode="single" selection="#{gameMB.game}" rowKey="#{a.id}">
+                            <p:ajax event="rowSelect" update=":tudo" listener="#{gameMB.editar()}" />
+
+
+
+                            <p:column headerText="Nome do Jogo" filterBy="#{a.nome}">
+                                <h:outputText value="#{a.nome}" style="font-size: 12px;"/>
+                            </p:column>
+
+                            <p:column headerText="Score" filterBy="#{a.score}" >
+                                <h:outputText value="#{a.score}" style="font-size: 12px;"/>
+                            </p:column>
+
+                            <p:column headerText="Preço" >
+                                <h:outputText value="#{a.preco}" style="font-size: 12px;"/>
+                            </p:column>
+
+                            
+                        </p:dataTable>
+
+
+
+                    </h:form>
+
+                </h:panelGroup>
+
+
+                
+                
+            </h:panelGroup>
+
+
+
+        </h:body>
+    </ui:define>
+
+</ui:composition>              

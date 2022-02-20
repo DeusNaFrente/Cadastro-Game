@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="miltonPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <!--non-jta-data-source>java:/comp/env/jdbc/dbJndi</non-jta-data-source-->
+    <class>br.com.iris.model.Usuario</class>
+    <class>br.com.iris.model.Game</class>
+    <class>br.com.iris.model.Pai</class>
+    <class>br.com.iris.model.ItemGame</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/milton"/>
+      <property name="hibernate.connection.username" value="iris"/>
+      <property name="hibernate.connection.password" value="SenMy@do"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <!--property name="hibernate.connection.datasource" value="java:comp/env/jdbc/dbJndi"/-->
+      <!--Auto detecção de entidades-->
+      <!--property name="hibernate.archive.autodetection" value="class, hbm"/-->
+      <!--Mostrar sql no console executadas pelo ORM-->
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="false"/>
+      <property name="hibernate.ejb.entitymanager_factory_name" value="br.com.iris.dao.FabricaEntityManager"/>
+      <!--Evita LazyLoadException-->
+      <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
+      <!--Configuracoes para o pool de conexoes-->
+      <property name="c3p0.acquire_increment" value="1"/>
+      <property name="c3p0.iddle_teste_period" value="70"/>
+      <property name="c3p0.max_size" value="6"/>
+      <property name="c3p0.max_statements" value="0"/>
+      <property name="c3p0.min_size" value="1"/>
+      <property name="c3p0.timeout" value="60"/>
+      <!--Nao aconselhavel para sistemas em producao-->
+      <!--property name="hibernate.hbm2ddl.auto" value="update" /-->
+    </properties>
+  </persistence-unit>
+</persistence>
